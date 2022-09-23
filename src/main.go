@@ -2,48 +2,36 @@ package main
 
 import (
 	"fmt"
-	"math"
+	"os"
 	"strconv"
 )
 
-const (
-	e        = 2.71828
-	Avogadro = 6.02214129e23
-	Planck   = 6.62606957e-34
-)
-
-var (
-	integer8  int8  = 127
-	integer16 int16 = 32767
-	integer32 int32 = 2147483647
-	integer64 int64 = 9223372036854775807
-
-	defaultInt     int
-	defaultFloat32 float32
-	defaultFloat64 float64
-	defaultBool    bool
-	defaultString  string
-)
-
 func main() {
-	fmt.Println(integer8, integer16, integer32, integer64)
+	sum, mul := calc(os.Args[1], os.Args[2])
+	fmt.Println("Sum:", sum)
+	fmt.Println("Mul:", mul)
 
-	//.\main.go:19:14: invalid operation: integer16 + integer32 (mismatched types int16 and int32)
-	//fmt.Println(integer16 + integer32)
+	firstName := "John"
+	updateName(firstName)
+	fmt.Println(firstName)
 
-	rune := 'G'
-	fmt.Println(rune)
+	firstName2 := "Mike"
+	updateNamePointer(&firstName2)
+	fmt.Println(firstName2)
+}
 
-	fmt.Println(math.MaxFloat32, math.MaxFloat64)
+func calc(number1 string, number2 string) (int, int) {
+	int1, _ := strconv.Atoi(number1)
+	int2, _ := strconv.Atoi(number2)
+	sum := int1 + int2
+	mul := int1 * int2
+	return sum, mul
+}
 
-	fmt.Println(e, Avogadro, Planck)
+func updateName(name string) {
+	name = "David"
+}
 
-	fullName := "John Doe \t(alias \"Foo\")\n"
-	fmt.Println(fullName)
-
-	fmt.Println(defaultInt, defaultBool, defaultFloat32, defaultFloat64, defaultString)
-
-	i, _ := strconv.Atoi("-42")
-	s := strconv.Itoa(-42)
-	fmt.Println(i, s)
+func updateNamePointer(name *string) {
+	*name = "David"
 }

@@ -1,19 +1,53 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math/rand"
+	"regexp"
+	"time"
+)
 
-func somenumber() int {
-	return -7
-}
 func main() {
-	num := somenumber()
-	if num < 0 {
-		fmt.Println(num, "is negative")
-	} else if num < 10 {
-		fmt.Println(num, "has 1 digit")
-	} else {
-		fmt.Println(num, "has multiple digits")
+	switch time.Now().Weekday().String() {
+	case "Monday", "Tuesday", "Wednesday", "Thursday", "Friday":
+		fmt.Println("It's time to learn some Go.")
+	default:
+		fmt.Println("It's weekend, time to rest!")
 	}
 
-	fmt.Println(num)
+	fmt.Println(time.Now().Weekday().String())
+
+	var email = regexp.MustCompile(`^[^@]+@[^@.]+\.[^@.]+`)
+	var phone = regexp.MustCompile(`^[(]?[0-9][0-9][0-9][). \-]*[0-9][0-9][0-9][.\-]?[0-9][0-9][0-9][0-9]`)
+
+	contact := "foo@bar.com"
+
+	switch {
+	case email.MatchString(contact):
+		fmt.Println(contact, "is an email")
+	case phone.MatchString(contact):
+		fmt.Println(contact, "is a phone number")
+	default:
+		fmt.Println(contact, "is not recognized")
+	}
+
+	rand.Seed(time.Now().Unix())
+	r := rand.Float64()
+	switch {
+	case r > 0.1:
+		fmt.Println("Common case, 90% of the time")
+	default:
+		fmt.Println("10% of the time")
+	}
+
+	switch num := 15; {
+	case num < 50:
+		fmt.Printf("%d is less than 50\n", num)
+		fallthrough
+	case num > 100:
+		fmt.Printf("%d is greater than 100\n", num)
+		fallthrough
+	case num < 200:
+		fmt.Printf("%d is less than 200", num)
+	}
 }

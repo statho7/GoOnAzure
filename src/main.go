@@ -3,51 +3,35 @@ package main
 import (
 	"fmt"
 	"math/rand"
-	"regexp"
 	"time"
 )
 
 func main() {
-	switch time.Now().Weekday().String() {
-	case "Monday", "Tuesday", "Wednesday", "Thursday", "Friday":
-		fmt.Println("It's time to learn some Go.")
-	default:
-		fmt.Println("It's weekend, time to rest!")
+	sum := 0
+	for i := 1; i <= 100; i++ {
+		sum += i
+	}
+	fmt.Println("sum of 1..100 is", sum)
+
+	var num int32
+	sec := time.Now().Unix()
+	rand.Seed(sec)
+
+	for {
+		fmt.Print("Writing inside the loop...")
+		if num = rand.Int31n(10); num == 5 {
+			fmt.Println("finish!")
+			break
+		}
+		fmt.Println(num)
 	}
 
-	fmt.Println(time.Now().Weekday().String())
-
-	var email = regexp.MustCompile(`^[^@]+@[^@.]+\.[^@.]+`)
-	var phone = regexp.MustCompile(`^[(]?[0-9][0-9][0-9][). \-]*[0-9][0-9][0-9][.\-]?[0-9][0-9][0-9][0-9]`)
-
-	contact := "foo@bar.com"
-
-	switch {
-	case email.MatchString(contact):
-		fmt.Println(contact, "is an email")
-	case phone.MatchString(contact):
-		fmt.Println(contact, "is a phone number")
-	default:
-		fmt.Println(contact, "is not recognized")
+	sum = 0
+	for num := 1; num <= 100; num++ {
+		if num%5 == 0 {
+			continue
+		}
+		sum += num
 	}
-
-	rand.Seed(time.Now().Unix())
-	r := rand.Float64()
-	switch {
-	case r > 0.1:
-		fmt.Println("Common case, 90% of the time")
-	default:
-		fmt.Println("10% of the time")
-	}
-
-	switch num := 15; {
-	case num < 50:
-		fmt.Printf("%d is less than 50\n", num)
-		fallthrough
-	case num > 100:
-		fmt.Printf("%d is greater than 100\n", num)
-		fallthrough
-	case num < 200:
-		fmt.Printf("%d is less than 200", num)
-	}
+	fmt.Println("The sum of 1 to 100, but excluding numbers divisible by 5, is", sum)
 }

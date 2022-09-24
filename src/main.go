@@ -1,37 +1,55 @@
+//package main
+//
+//import (
+//	"fmt"
+//	"io"
+//	"os"
+//)
+//
+//func main() {
+//	for i := 1; i <= 4; i++ {
+//		defer fmt.Println("deferred", -i)
+//		fmt.Println("regular", i)
+//	}
+//
+//	newfile, error := os.Create("learnGo.txt")
+//	if error != nil {
+//		fmt.Println("Error: Could not create file.")
+//		return
+//	}
+//	defer newfile.Close()
+//
+//	if _, error = io.WriteString(newfile, "Learning Go!"); error != nil {
+//		fmt.Println("Error: Could not write to file.")
+//		return
+//	}
+//
+//	newfile.Sync()
+//}
+
 package main
 
-import (
-	"fmt"
-	"math/rand"
-	"time"
-)
+import "fmt"
+
+func highlow(high int, low int) {
+	if high < low {
+		fmt.Println("Panic!")
+		panic("highlow() low greater than high")
+	}
+	defer fmt.Println("Deferred: highlow(", high, ",", low, ")")
+	fmt.Println("Call: highlow(", high, ",", low, ")")
+
+	highlow(high, low+1)
+}
 
 func main() {
-	sum := 0
-	for i := 1; i <= 100; i++ {
-		sum += i
-	}
-	fmt.Println("sum of 1..100 is", sum)
-
-	var num int32
-	sec := time.Now().Unix()
-	rand.Seed(sec)
-
-	for {
-		fmt.Print("Writing inside the loop...")
-		if num = rand.Int31n(10); num == 5 {
-			fmt.Println("finish!")
-			break
+	defer func() {
+		handler := recover()
+		if handler != nil {
+			fmt.Println("main(): recover", handler)
 		}
-		fmt.Println(num)
-	}
+	}()
 
-	sum = 0
-	for num := 1; num <= 100; num++ {
-		if num%5 == 0 {
-			continue
-		}
-		sum += num
-	}
-	fmt.Println("The sum of 1 to 100, but excluding numbers divisible by 5, is", sum)
+	highlow(2, 0)
+	fmt.Println("Program finished successfully!")
 }

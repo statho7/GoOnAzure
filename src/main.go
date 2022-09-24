@@ -1,55 +1,41 @@
-//package main
-//
-//import (
-//	"fmt"
-//	"io"
-//	"os"
-//)
-//
-//func main() {
-//	for i := 1; i <= 4; i++ {
-//		defer fmt.Println("deferred", -i)
-//		fmt.Println("regular", i)
-//	}
-//
-//	newfile, error := os.Create("learnGo.txt")
-//	if error != nil {
-//		fmt.Println("Error: Could not create file.")
-//		return
-//	}
-//	defer newfile.Close()
-//
-//	if _, error = io.WriteString(newfile, "Learning Go!"); error != nil {
-//		fmt.Println("Error: Could not write to file.")
-//		return
-//	}
-//
-//	newfile.Sync()
-//}
-
 package main
 
 import "fmt"
 
-func highlow(high int, low int) {
-	if high < low {
-		fmt.Println("Panic!")
-		panic("highlow() low greater than high")
-	}
-	defer fmt.Println("Deferred: highlow(", high, ",", low, ")")
-	fmt.Println("Call: highlow(", high, ",", low, ")")
-
-	highlow(high, low+1)
-}
-
 func main() {
-	defer func() {
-		handler := recover()
-		if handler != nil {
-			fmt.Println("main(): recover", handler)
-		}
-	}()
+	var a [3]int
+	a[1] = 10
+	fmt.Println(a[0])
+	fmt.Println(a[1])
+	fmt.Println(a[len(a)-1])
 
-	highlow(2, 0)
-	fmt.Println("Program finished successfully!")
+	//cities := [5]string{"New York", "Paris", "Berlin", "Madrid"}
+	//fmt.Println("Cities:", cities)
+
+	cities := [...]string{"New York", "Paris", "Berlin", "Madrid"}
+	fmt.Println("Cities:", cities)
+
+	numbers := [...]int{99: -1}
+	fmt.Println("First Position:", numbers[0])
+	fmt.Println("Last Position:", numbers[99])
+	fmt.Println("Length:", len(numbers))
+
+	var twoD [3][5]int
+	for i := 0; i < 3; i++ {
+		for j := 0; j < 5; j++ {
+			twoD[i][j] = (i + 1) * (j + 1)
+		}
+		fmt.Println("Row", i, twoD[i])
+	}
+	fmt.Println("\nAll at once:", twoD)
+
+	var threeD [3][5][2]int
+	for i := 0; i < 3; i++ {
+		for j := 0; j < 5; j++ {
+			for k := 0; k < 2; k++ {
+				threeD[i][j][k] = (i + 1) * (j + 1) * (k + 1)
+			}
+		}
+	}
+	fmt.Println("\nAll at once:", threeD)
 }
